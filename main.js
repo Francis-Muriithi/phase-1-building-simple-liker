@@ -2,8 +2,29 @@
 const EMPTY_HEART = '♡'
 const FULL_HEART = '♥'
 
+
+
 // Your JavaScript code goes here!
 
+const glyphObject = {'♡':FULL_HEART,'♥':EMPTY_HEART}
+const colorState = {"red":"","":"red"}
+
+let likeButtons = document.querySelectorAll(".like")
+for (el of likeButtons) {
+  el.addEventListener("click", () => {
+    mimicServerCall()
+    .then((respond) =>{
+      e.target.innerText =glyphObject[e.target.innerText]
+      e.target.style.color = colorState[e.target.style.color]
+    })
+    .catch((error) =>{
+      document.getElementById("modal").className = " "
+      setTimeout (function(){
+        document.getElementById("modal").className = "hidden"
+      }, 3000)
+    })
+  })
+}
 
 
 
@@ -20,6 +41,6 @@ function mimicServerCall(url="http://mimicServer.example.com", config={}) {
       } else {
         resolve("Pretend remote server notified of action!");
       }
-    }, 300);
+    }, 3000);
   });
 }
