@@ -5,27 +5,32 @@ const FULL_HEART = '♥'
 
 
 // Your JavaScript code goes here!
+const modal = document.querySelector("#modal");
+const message = document.querySelector("#modal-message");
+let hearts = document.querySelectorAll(".like");
 
-const glyphObject = {'♡':FULL_HEART,'♥':EMPTY_HEART}
-const colorState = {"red":"","":"red"}
-
-let likeButtons = document.querySelectorAll(".like")
-for (el of likeButtons) {
-  el.addEventListener("click", () => {
-    mimicServerCall()
-    .then((respond) =>{
-      e.target.innerText =glyphObject[e.target.innerText]
-      e.target.style.color = colorState[e.target.style.color]
-    })
-    .catch((error) =>{
-      document.getElementById("modal").className = " "
-      setTimeout (function(){
-        document.getElementById("modal").className = "hidden"
-      }, 3000)
-    })
-  })
+for (let heart of hearts){
+  heart.addEventListener("click", like)
 }
 
+function like(e){
+  if(e.target.innerText===EMPTY_HEART){
+    mimicServerCall()
+    .then(() => {
+      e.target.innerText= FULL_HEART;
+      e.target.classList.toggle('activated-heart');
+    })
+    .catch(err => {
+      modal.classList.toggle('hidden');
+      message.innerText = err;
+      setTimeout(() => modal.classList.toggle('hidden'), 3000);
+    })
+  }
+  if (e.target.innerText === FULL_HEART){
+    e.target.innerText = EMPTY_HEART;
+    e.target.classList.toggle('activated-heart');
+  }
+}
 
 
 //------------------------------------------------------------------------------
